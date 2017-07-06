@@ -551,6 +551,8 @@ function Banana_UpdateStatusPlayerLoop(prefix,count)
             if loopmembersymbol ~= 0 then
                 Banana_UpdateTargetSymbol(loopmember,loopmembersymbol);
 		    	raidTargetStatus[loopmembersymbol].Target = UnitName(loopmember);
+				raidTargetStatus[loopmembersymbol].Health = UnitHealth(loopmember);
+				raidTargetStatus[loopmembersymbol].MaxHealth = UnitHealthMax(loopmember);
 				
                 -- loopmember has aggro?
                 if UnitIsUnit(loopmember,loopmember.."TARGETTARGET") then
