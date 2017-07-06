@@ -46,15 +46,15 @@ local BANANA_READY = nil;
 	
 local raidTargetStatus =
 {
-	[1] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[2] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[3] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[4] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[5] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[6] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[7] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[8] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
-	[9] = {["Count"] = 0,["Target"] = nil,["Players"] = {},},
+	[1] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[2] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[3] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[4] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[5] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[6] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[7] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[8] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
+	[9] = {["Count"] = 0,["Target"] = nil,["Players"] = {},["Health"] = 100},
 }
 
  
@@ -438,6 +438,8 @@ function Banana_UpdateStatusInit()
     	raidTargetStatus[index].Target = nil;
     	raidTargetStatus[index].TargetSymbol = nil;
     	raidTargetStatus[index].Players = {};
+		raidTargetStatus[index].Health = 100;
+		raidTargetStatus[index].MaxHealth = 100;
 		BANANA_ICON[index].Debuff = nil;
 		BANANA_ICON[index].IsDeath = nil;
 		BANANA_ICON[index].MyTarget = nil;
@@ -564,6 +566,8 @@ function Banana_UpdateStatusPlayerLoop(prefix,count)
                 if symbol ~= 0 then
                     Banana_UpdateTargetSymbol(loopmembertarget,symbol);
                     raidTargetStatus[symbol].Target = UnitName(loopmembertarget);
+					raidTargetStatus[symbol].Health = UnitHealth(loopmembertarget);
+					raidTargetStatus[symbol].MaxHealth = UnitHealthMax(loopmembertarget);
                     
                     raidTargetStatus[symbol].Count = raidTargetStatus[symbol].Count + 1;
                     raidTargetStatus[symbol].Players[raidTargetStatus[symbol].Count] = {};
@@ -617,11 +621,16 @@ function Banana_UpdateStatusUpdate()
 		local button = getglobal("RaidTargetFrame"..index.."Button");
 		local flash = getglobal("RaidTargetFrame"..index.."ButtonFlash");
 		local count = getglobal("RaidTargetFrame"..index.."ButtonCount");
+		local hp = getglobal("RaidTargetFrame"..index.."ButtonStatus");
 		
 		if ( raidTargetStatus[index].Target) then
 			count:SetText(tostring(raidTargetStatus[index].Count));
 			count:Show();
 			button:Show();
+			
+			hp:SetMinMaxValues(0, tostring(raidTargetStatus[index].MaxHealth))
+			hp:SetValue(tostring(raidTargetStatus[index].Health))
+			hp:Show();
 			
 			if BANANA_ICON[index].Debuff ~= "" then
 				flash:ClearAllPoints();

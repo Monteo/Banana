@@ -93,6 +93,34 @@
 				</Texture>
             </Layer>
 		</Layers>
+		<Frames>
+			<StatusBar name="$parentStatus" hidden="false">
+				<Size>
+					<AbsDimension x="35" y="7"/>
+				</Size>
+				<Anchors>
+					<Anchor point="CENTER" relativeTo="$parent" relativePoint="BOTTOM">
+						<Offset>
+							<AbsDimension x="0" y="-7"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture setAllPoints="true">
+							<Color r="0" g="0" b="0" a="0.5"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<BarTexture file="Interface\AddOns\Banana\Images\Smooth"/>
+				<BarColor r="0" g="0.8" b="0"/>
+				<Scripts>
+					<OnLoad>
+						this:SetMinMaxValues(0, 100)
+					</OnLoad>
+				</Scripts>
+			</StatusBar>
+		</Frames>
     </CheckButton>
     
 	<CheckButton parent="UIParent" name="RaidTargetFrame1Button" id="1" inherits="BananaButtonTemplate" hidden="false"/>
