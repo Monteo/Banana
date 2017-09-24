@@ -440,6 +440,7 @@ function Banana_UpdateStatusInit()
     	raidTargetStatus[index].Players = {};
 		raidTargetStatus[index].Health = 100;
 		raidTargetStatus[index].MaxHealth = 100;
+		raidTargetStatus[index].Hostile = nil;
 		BANANA_ICON[index].Debuff = nil;
 		BANANA_ICON[index].IsDeath = nil;
 		BANANA_ICON[index].MyTarget = nil;
@@ -553,6 +554,7 @@ function Banana_UpdateStatusPlayerLoop(prefix,count)
 		    	raidTargetStatus[loopmembersymbol].Target = UnitName(loopmember);
 				raidTargetStatus[loopmembersymbol].Health = UnitHealth(loopmember);
 				raidTargetStatus[loopmembersymbol].MaxHealth = UnitHealthMax(loopmember);
+				raidTargetStatus[loopmembersymbol].Hostile = UnitIsEnemy("player",loopmember)
 				
                 -- loopmember has aggro?
                 if UnitIsUnit(loopmember,loopmember.."TARGETTARGET") then
@@ -570,6 +572,7 @@ function Banana_UpdateStatusPlayerLoop(prefix,count)
                     raidTargetStatus[symbol].Target = UnitName(loopmembertarget);
 					raidTargetStatus[symbol].Health = UnitHealth(loopmembertarget);
 					raidTargetStatus[symbol].MaxHealth = UnitHealthMax(loopmembertarget);
+					raidTargetStatus[symbol].Hostile = UnitIsEnemy("player",loopmembertarget)
                     
                     raidTargetStatus[symbol].Count = raidTargetStatus[symbol].Count + 1;
                     raidTargetStatus[symbol].Players[raidTargetStatus[symbol].Count] = {};
@@ -632,6 +635,11 @@ function Banana_UpdateStatusUpdate()
 			
 			hp:SetMinMaxValues(0, tostring(raidTargetStatus[index].MaxHealth))
 			hp:SetValue(tostring(raidTargetStatus[index].Health))
+			if raidTargetStatus[index].Hostile then
+				hp:SetStatusBarColor(1,0,0)
+			else
+				hp:SetStatusBarColor(0,0.8,0)
+			end
 			hp:Show();
 			
 			if BANANA_ICON[index].Debuff ~= "" then
