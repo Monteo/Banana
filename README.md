@@ -1,3 +1,5 @@
+# BananaBar
+
 ﻿How to Use: 
 
 Ctrl+Leftmouse on raid symbol button: 
@@ -19,8 +21,6 @@ Restrictions:
 - Only 1 hunters mark at the same time is supported, if there is more than 1 hunters mark is set the hunters mark button won’t work correctly
 
 - If a hunters mark and a raid symbol are set on the same target only the raid symbol is shown.
-
-
 
 
 Settings Dialog: 
@@ -67,9 +67,6 @@ In this dialog you can change the size of the buttons.
 
 The complete settings dialog is reset to default values, also the button positions are reset to default positions. This button should help if something strange happened.
 For example, use this button if there is a bug and the buttons are gone away.
-
-
-
 
 
 If you find this Addon useful feel free to send some beer to Germany:

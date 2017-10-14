@@ -35,6 +35,8 @@ BANANA_SHOW_IN_RAID = nil;
 BANANA_SHOW_IN_PARTY = nil;
 BANANA_SHOW_OUT_OF_GROUP = nil;
 BANANA_SHOW_EXTRA_INFO = nil;
+BANANA_SHOW_PRINT_MESSAGES = nil;
+BANANA_SHOW_DEBUG_MESSAGES = nil;
 
 SLASH_BANANA1 = "/bananabar";
 SLASH_BANANA2 = "/bb"; 
@@ -137,7 +139,9 @@ function Banana_Print(msg)
 
 	local strx = string.format(BANANA_PRINT_FORMAT,tostring(msg)); 
 
-	DEFAULT_CHAT_FRAME:AddMessage(strx);
+	if BANANA_SHOW_PRINT_MESSAGES == 1 then
+		DEFAULT_CHAT_FRAME:AddMessage(strx);
+	end
 end
 
 function Banana_Debug(msg)
@@ -147,7 +151,9 @@ function Banana_Debug(msg)
 
 	local strx = string.format(BANANA_PRINT_FORMAT,tostring(msg)); 
 
-	DEFAULT_CHAT_FRAME:AddMessage(strx);
+	if BANANA_SHOW_DEBUG_MESSAGES == 1 then
+		DEFAULT_CHAT_FRAME:AddMessage(strx);
+	end
 end
 
 
@@ -555,7 +561,6 @@ function Banana_UpdateStatusPlayerLoop(prefix,count)
 				raidTargetStatus[loopmembersymbol].Health = UnitHealth(loopmember);
 				raidTargetStatus[loopmembersymbol].MaxHealth = UnitHealthMax(loopmember);
 				raidTargetStatus[loopmembersymbol].Hostile = UnitIsEnemy("player",loopmember)
-				
                 -- loopmember has aggro?
                 if UnitIsUnit(loopmember,loopmember.."TARGETTARGET") then
 					raidTargetStatus[loopmembersymbol].Aggro = true;
@@ -573,7 +578,6 @@ function Banana_UpdateStatusPlayerLoop(prefix,count)
 					raidTargetStatus[symbol].Health = UnitHealth(loopmembertarget);
 					raidTargetStatus[symbol].MaxHealth = UnitHealthMax(loopmembertarget);
 					raidTargetStatus[symbol].Hostile = UnitIsEnemy("player",loopmembertarget)
-                    
                     raidTargetStatus[symbol].Count = raidTargetStatus[symbol].Count + 1;
                     raidTargetStatus[symbol].Players[raidTargetStatus[symbol].Count] = {};
                     raidTargetStatus[symbol].Players[raidTargetStatus[symbol].Count].Name = UnitName(loopmember);
@@ -807,6 +811,27 @@ function BananaConfig_ValueChangedShowExtraInfo()
 	end
 end
 
+function BananaConfig_ValueChangedShowPrintMessages()
+	if BANANA_READY then
+		if this:GetChecked() then
+			BANANA_SHOW_PRINT_MESSAGES = 1;
+		else
+			BANANA_SHOW_PRINT_MESSAGES = 0;
+		end
+		Banana_UpdateStatus();
+	end
+end
+
+function BananaConfig_ValueChangedShowDebugMessages()
+	if BANANA_READY then
+		if this:GetChecked() then
+			BANANA_SHOW_DEBUG_MESSAGES = 1;
+		else
+			BANANA_SHOW_DEBUG_MESSAGES = 0;
+		end
+		Banana_UpdateStatus();
+	end
+end
 
 function BananaConfig_ValueChangedHideUnused()
 	if BANANA_READY then
@@ -844,6 +869,8 @@ function Banana_ResetAll()
 	BANANA_HIDE_BUTTON_FRAMES = 1;
 	BANANA_GREY_OUT_DEATH = 0;
     BANANA_SHOW_EXTRA_INFO = 1;
+    BANANA_SHOW_PRINT_MESSAGES = 0;
+    BANANA_SHOW_DEBUG_MESSAGES = 0;
     
 	Banana_UpdateDialogFromVariables();
 	
